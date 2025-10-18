@@ -6,11 +6,14 @@ export default defineConfig(
     eslint.configs.recommended,
     tseslint.configs.recommended,
     {
+        ignores: ['dist/**']
+    },
+    {
         files: ['**/*.ts', '**/*.tsx'],
         languageOptions: {
             parser: tseslint.parser,
             parserOptions: {
-                project: './tsconfig.pkg.json',
+                project: './tsconfig.json',
                 tsconfigRootDir: import.meta.dirname,
             },
         },
