@@ -1,0 +1,28 @@
+{
+  "name": "@mediamaster/express-crud-router",
+  "description": "A controller interface from which a CRUD router is built",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "license": "MIT",
+  "packageManager": "pnpm@10.18.3",
+  "type": "module",
+  "keywords": [
+    "router"
+  ],
+  "scripts": {
+    "build": "rm -rf dist/* && tsc -p tsconfig.pkg.json"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.37.0",
+    "@types/express": "^5.0.3",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/node": "^24.7.2",
+    "eslint": "^9.37.0",
+    "typescript-eslint": "^8.46.1"
+  },
+  "dependencies": {
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2"
+  }
+}
