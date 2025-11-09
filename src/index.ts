@@ -1,3 +1,4 @@
+import { requireAuth } from '@media-master/express-middleware';
 import { Router, Request, Response } from 'express';
 
 export abstract class BaseController {
@@ -16,9 +17,9 @@ export function createRouter<T extends BaseController>(Controller: ControllerCla
 
     router.get('/', controller.readAll);
     router.get('/:id', controller.read);
-    router.post('/', controller.create);
-    router.put('/:id', controller.update);
-    router.delete('/:id', controller.delete);
+    router.post('/', requireAuth, controller.create);
+    router.put('/:id', requireAuth, controller.update);
+    router.delete('/:id', requireAuth, controller.delete);
 
     return router;
 }

@@ -24,6 +24,7 @@
     "typescript-eslint": "^8.46.1"
   },
   "dependencies": {
+    "@media-master/express-middleware": "^0.0.2",
     "express": "^5.1.0"
   }
 }
