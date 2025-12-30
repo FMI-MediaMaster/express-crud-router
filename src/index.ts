@@ -27,3 +27,28 @@ export function createRouter<T extends BaseController>(
 
     return router;
 }
+
+export class BaseMediaM2MController {
+    readAll?(req: Request, res: Response): void;
+    readById?(req: Request, res: Response): void;
+    create?(req: Request, res: Response): void;
+    update?(req: Request, res: Response): void;
+    delete?(req: Request, res: Response): void;
+}
+
+type MediaM2MControllerClass<T extends BaseMediaM2MController> = new () => T;
+
+export function createMediaM2MRouter<T extends BaseMediaM2MController>(
+    Controller: MediaM2MControllerClass<T>,
+    router: Router = Router()
+): Router {
+    const controller = new Controller();
+
+    if (controller.readAll) router.get('/', controller.readAll);
+    if (controller.readById) router.get('/:mediaId/:id', controller.readById);
+    if (controller.create) router.post('/', requireAuth, controller.create);
+    if (controller.update) router.put('/:mediaId/:id', requireAuth, controller.update);
+    if (controller.delete) router.delete('/:mediaId/:id', requireAuth, controller.delete);
+
+    return router;
+}
