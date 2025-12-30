@@ -1,26 +1,29 @@
-import { requireAuth } from '@media-master/express-middleware';
 import { Router, Request, Response } from 'express';
+import { requireAuth } from '@media-master/express-middleware';
 
-export abstract class BaseController {
-  abstract readAll(req: Request, res: Response): Promise<void> | void;
-  abstract read(req: Request, res: Response): Promise<void> | void;
-  abstract create(req: Request, res: Response): Promise<void> | void;
-  abstract update(req: Request, res: Response): Promise<void> | void;
-  abstract delete(req: Request, res: Response): Promise<void> | void;
+export class BaseController {
+    readAll?(req: Request, res: Response): void;
+    read?(req: Request, res: Response): void;
+    readByName?(req: Request, res: Response): void;
+    create?(req: Request, res: Response): void;
+    update?(req: Request, res: Response): void;
+    delete?(req: Request, res: Response): void;
 }
 
 type ControllerClass<T extends BaseController> = new () => T;
 
-export function createRouter<T extends BaseController>(Controller: ControllerClass<T>): Router {
+export function createRouter<T extends BaseController>(
+    Controller: ControllerClass<T>,
+    router: Router = Router()
+): Router {
     const controller = new Controller();
-    const router = Router();
 
-    router.get('/', controller.readAll);
-    router.get('/:id', controller.read);
-    router.post('/', requireAuth, controller.create);
-    router.put('/:id', requireAuth, controller.update);
-    router.delete('/:id', requireAuth, controller.delete);
+    if (controller.readAll) router.get('/', controller.readAll);
+    if (controller.readByName) router.get('/name', controller.readByName);
+    if (controller.read) router.get('/:id', controller.read);
+    if (controller.create) router.post('/', requireAuth, controller.create);
+    if (controller.update) router.put('/:id', requireAuth, controller.update);
+    if (controller.delete) router.delete('/:id', requireAuth, controller.delete);
 
     return router;
 }
-
